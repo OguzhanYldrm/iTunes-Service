@@ -3,8 +3,8 @@ This project is a case study of Hepsiburada Mobile Team which mainly focuses on 
 
 ### Contents:
   - [Tasks](#tasks)
-      - [Project Setup & Configurations](#configuration)
-      - [Data Class & Views]
+      - [Project Setup](#project-setup)
+      - [Data Class & Views] 
       - [Navigation]
       - [API Operations]
       - [DI via Hilt]
@@ -17,17 +17,35 @@ This project is a case study of Hepsiburada Mobile Team which mainly focuses on 
       - [Detail Screen Implementations]
       - [Handle Death Process]
       
- 
-  - [Tools](#tools)
-  - [Articles](#articles)
-  - [Video Tutorials](#tutorials)
+  - [Helpful Sources](#helpful-sources)
   - [Contribute](#contribute)
+  - [Special Thanks](#special-thanks)
   - [License](#license)
 
+## Path
 
-## Categories
+#### Project Setup
+  - Viewbinding
+  - Jetpack Navigation
+  - Hilt DI
+  - Retrofit
+  - Glide
+  - Paging
 
-#### Project Setup & Configurations
+#### Data Class & Views
+#### Navigation
+#### API Operations
+#### DI via Hilt
+#### Paging - Source & Data
+#### Paging Adapter
+#### Header & Footer
+#### Searching
+#### Loading State
+#### Go Detail Screen
+#### Detail Screen Implementations
+#### Handle Death Process
+ 
+
 
 
 
