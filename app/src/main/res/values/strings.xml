@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">iTunes Service</string>
+    <string name="quick_search">Hızlı Arama</string>
+    <string name="product_name">Product Name</string>
+    <string name="price">Price</string>
+    <string name="date_placeholder">-/-/-</string>
+    <string name="product_image">Product Image</string>
+    <string name="detail">DETAIL</string>
 </resources>
