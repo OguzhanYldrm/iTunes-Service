@@ -23,8 +23,8 @@ class ProductListFragment : Fragment() {
         binding.categoryTab.apply {
             addTab(binding.categoryTab.newTab().setText("Movies"))
             addTab(binding.categoryTab.newTab().setText("Musics"))
-            addTab(binding.categoryTab.newTab().setText("Apps"))
             addTab(binding.categoryTab.newTab().setText("Books"))
+            addTab(binding.categoryTab.newTab().setText("Podcasts"))
             tabGravity = TabLayout.GRAVITY_FILL
         }
 
@@ -34,8 +34,8 @@ class ProductListFragment : Fragment() {
                 when(tab.text) {
                     "Movies" -> Toast.makeText(context, "Movies", Toast.LENGTH_SHORT).show()
                     "Musics" -> Toast.makeText(context, "Musics", Toast.LENGTH_SHORT).show()
-                    "Apps" -> Toast.makeText(context, "Apps", Toast.LENGTH_SHORT).show()
                     "Books" -> Toast.makeText(context, "Books", Toast.LENGTH_SHORT).show()
+                    "Podcasts" -> Toast.makeText(context, "Podcasts", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
