@@ -8,10 +8,18 @@
         android:id="@+id/productListFragment"
         android:name="com.android.itunesservice.ui.pages.ProductListFragment"
         android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list" />
+        tools:layout="@layout/fragment_product_list" >
+        <action
+            android:id="@+id/action_productListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="com.android.itunesservice.ui.pages.ProductDetailFragment"
         android:label="fragment_product_detail"
-        tools:layout="@layout/fragment_product_detail" />
+        tools:layout="@layout/fragment_product_detail" >
+        <argument
+            android:name="product"
+            app:argType="com.android.itunesservice.data.model.ProductResultModel$Product" />
+    </fragment>
 </navigation>

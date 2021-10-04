@@ -9,4 +9,6 @@
     <string name="no_results_found">No results found</string>
     <string name="reload">Reload</string>
     <string name="results_not_loaded">Results not loaded</string>
+    <string name="product_description">Product Description</string>
+    <string name="genre_type">Genre Type</string>
 </resources>

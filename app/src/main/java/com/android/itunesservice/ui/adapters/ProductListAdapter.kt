@@ -12,8 +12,10 @@ import com.android.itunesservice.utils.UtilFunctions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class ProductListAdapter :
-    PagingDataAdapter<ProductResultModel.Product, ProductListAdapter.ProductListViewHolder>(PRODUCT_COMPARATOR) {
+class ProductListAdapter(private val listener: OnProductClickListener) :
+    PagingDataAdapter<ProductResultModel.Product, ProductListAdapter.ProductListViewHolder>(
+        PRODUCT_COMPARATOR
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductListViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,8 +29,21 @@ class ProductListAdapter :
         }
     }
 
-    class ProductListViewHolder(private val binding: ItemProductBinding) :
+    inner class ProductListViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    item?.let {
+                        listener.onProductClick(item)
+                    }
+                }
+            }
+        }
 
         fun bind(product: ProductResultModel.Product) {
             binding.apply {
@@ -46,20 +61,28 @@ class ProductListAdapter :
         }
     }
 
+    interface OnProductClickListener {
+        fun onProductClick(product: ProductResultModel.Product)
+    }
+
     companion object {
-        private val PRODUCT_COMPARATOR = object : DiffUtil.ItemCallback<ProductResultModel.Product>() {
+        private val PRODUCT_COMPARATOR =
+            object : DiffUtil.ItemCallback<ProductResultModel.Product>() {
 
-            override fun areItemsTheSame(oldItem: ProductResultModel.Product, newItem: ProductResultModel.Product) =
-                oldItem.id == newItem.id
+                override fun areItemsTheSame(
+                    oldItem: ProductResultModel.Product,
+                    newItem: ProductResultModel.Product
+                ) =
+                    oldItem.id == newItem.id
 
-            override fun areContentsTheSame(
-                oldItem: ProductResultModel.Product,
-                newItem: ProductResultModel.Product
-            ): Boolean {
-                return oldItem == newItem
+                override fun areContentsTheSame(
+                    oldItem: ProductResultModel.Product,
+                    newItem: ProductResultModel.Product
+                ): Boolean {
+                    return oldItem == newItem
+                }
+
+
             }
-
-
-        }
     }
 }

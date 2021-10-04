@@ -7,18 +7,20 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itunesservice.R
 import com.android.itunesservice.data.model.ProductRequestModel
+import com.android.itunesservice.data.model.ProductResultModel
 import com.android.itunesservice.databinding.FragmentProductListBinding
 import com.android.itunesservice.ui.adapters.ProductListAdapter
 import com.android.itunesservice.ui.adapters.ProductLoadStateAdapter
 import com.android.itunesservice.ui.viewmodel.ProductListViewModel
 import com.google.android.material.tabs.TabLayout
 
-class ProductListFragment : Fragment(R.layout.fragment_product_list) {
+class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductListAdapter.OnProductClickListener {
 
     private val viewModel by viewModels<ProductListViewModel> ()
     private var _binding: FragmentProductListBinding? = null
@@ -29,7 +31,7 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
         // Inflate the layout for this fragment
         _binding = FragmentProductListBinding.bind(view)
 
-        val adapter = ProductListAdapter()
+        val adapter = ProductListAdapter(this)
 
         binding.apply {
             recyclerViewItems.setHasFixedSize(true)
@@ -128,6 +130,11 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onProductClick(product: ProductResultModel.Product) {
+        val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailFragment(product)
+        findNavController().navigate(action)
     }
 
 }

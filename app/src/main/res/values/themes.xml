@@ -39,9 +39,8 @@
 
 
     <!-- Detail Screen Cardview Style -->
-    <style name="CustomCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+    <style name="CustomCardViewStyle" parent="@style/CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay_card_custom_corners</item>
-        <item name="backgroundTint">@color/background</item>
     </style>
 
 

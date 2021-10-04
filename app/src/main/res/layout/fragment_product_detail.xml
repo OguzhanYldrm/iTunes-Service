@@ -1,30 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.pages.ProductDetailFragment">
 
-    <ImageButton
-        android:id="@+id/btnProductDetailBack"
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-25dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomDetailInfoCardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="25dp">
+
+            <ImageView
+                android:id="@+id/ivProductDetailImage"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@mipmap/ic_launcher" />
+
+            <ImageButton
+                android:id="@+id/btnProductDetailBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_back_arrow"
+                android:backgroundTint="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvProductDetailName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/product_name"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivProductDetailImage" />
+
+            <TextView
+                android:id="@+id/tvProductDetailReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:alpha="0.45"
+                android:text="@string/date_placeholder"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivProductDetailImage" />
+
+
+            <TextView
+                android:id="@+id/tvProductDetailPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/price"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvProductDetailName" />
+
+            <TextView
+                android:id="@+id/tvProductDetailDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:alpha="0.65"
+                android:text="@string/product_description"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvProductDetailPrice" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottomDetailInfoCardView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/black"
+        app:cardCornerRadius="120dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tvProductDetailGenre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/genre_type"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <ProgressBar
+        android:id="@+id/productDetailProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_arrow_back"
-        android:backgroundTint="@color/black"
-        android:layout_margin="15dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ivProductDetailImage"/>
-
-    <ImageView
-        android:id="@+id/ivProductDetailImage"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/btnProductDetailBack"/>
-
-
-
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

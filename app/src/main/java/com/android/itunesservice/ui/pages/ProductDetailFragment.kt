@@ -5,22 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.android.itunesservice.R
 import com.android.itunesservice.databinding.FragmentProductDetailBinding
 
-class ProductDetailFragment : Fragment() {
+class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
-    private lateinit var binding: FragmentProductDetailBinding
+    private var _binding: FragmentProductDetailBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentProductDetailBinding.inflate(inflater, container, false)
-        requireActivity().actionBar?.hide()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentProductDetailBinding.bind(view)
 
+    }
 
-        return binding.root
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }
