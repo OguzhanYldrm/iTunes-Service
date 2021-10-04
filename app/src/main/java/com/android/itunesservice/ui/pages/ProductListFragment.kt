@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProviders
 import com.android.itunesservice.databinding.FragmentProductListBinding
+import com.android.itunesservice.ui.viewmodel.ProductListViewModel
 import com.google.android.material.tabs.TabLayout
 
 class ProductListFragment : Fragment() {
 
+    private val viewModel = ViewModelProviders.of(this).get(ProductListViewModel::class.java)
     private lateinit var binding: FragmentProductListBinding
 
     override fun onCreateView(
@@ -19,6 +23,9 @@ class ProductListFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentProductListBinding.inflate(inflater, container, false)
+
+        //Get Products
+        retrieveProducts()
 
         binding.categoryTab.apply {
             addTab(binding.categoryTab.newTab().setText("Movies"))
@@ -44,6 +51,12 @@ class ProductListFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun retrieveProducts() {
+        viewModel.products.observe(viewLifecycleOwner) {
+
+        }
     }
 
 }

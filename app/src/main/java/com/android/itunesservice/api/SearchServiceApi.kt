@@ -6,10 +6,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
-class SearchServiceApi {
 
-    val BASE_URL = "https://itunes.apple.com/"
-    val country = Locale.getDefault().country
+object SearchServiceApi {
+
+    private val BASE_URL = "https://itunes.apple.com/"
+    private val country = Locale.getDefault().country
 
     val API = Retrofit
         .Builder()
@@ -23,7 +24,7 @@ class SearchServiceApi {
         entity: String = "movie",
         pageSize: Int = 20,
         pageNumber: Int = 0
-    ): Call<List<ProductModel>> {
+    ): ProductResponse {
         return API.getSearchedProducts(searchText, country, entity, pageSize, pageNumber)
     }
 

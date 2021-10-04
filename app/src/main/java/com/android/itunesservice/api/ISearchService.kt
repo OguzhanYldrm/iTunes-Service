@@ -7,14 +7,13 @@ import retrofit2.http.Query
 
 interface ISearchService {
 
-    @GET("search?")
+    @GET("search")
     suspend fun getSearchedProducts(
         @Query("term") searchText: String,
         @Query("country") country: String,
         @Query("entity") entity: String,
         @Query("limit") pageSize: Int,
         @Query("offset") pageNumber: Int
-
-    ): Call<List<ProductModel>>
+    ): ProductResponse
 
 }
