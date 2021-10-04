@@ -83,13 +83,13 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
                 var category = "movie"
                 when(tab.position) {
                     0 -> category = "movie"
-                    1 -> category = "music"
+                    1 -> category = "song"
                     2 -> category = "ebook"
                     3 -> category = "podcast"
                 }
                 var query = binding.SeachView.query.toString()
                 if (query.isEmpty()){
-                    query = "Michael+Jackson"
+                    query = "Hobbit"
                 }
                 viewModel.searchProducts(ProductRequestModel(query, category))
                 binding.SeachView.clearFocus()
@@ -107,7 +107,7 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
                     var category = "movie"
                     when(binding.categoryTab.selectedTabPosition){
                         0 -> category = "movie"
-                        1 -> category = "music"
+                        1 -> category = "song"
                         2 -> category = "ebook"
                         3 -> category = "podcast"
                     }

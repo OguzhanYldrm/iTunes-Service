@@ -24,7 +24,7 @@ class ProductListViewModel() : ViewModel(){
     }
 
     companion object {
-        const val DEFUALT_QUERY = "Michael+Jackson"
+        const val DEFUALT_QUERY = "Hobbit"
         const val DEFAULT_ENTITY = "movie"
     }
 }

@@ -27,7 +27,7 @@ object SearchServiceApi {
     val API = Retrofit
         .Builder()
         .baseUrl(BASE_URL)
-         //.client(okHttpClient)
+         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ISearchService::class.java)

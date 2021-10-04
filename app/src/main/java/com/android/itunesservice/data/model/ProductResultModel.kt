@@ -16,7 +16,8 @@ data class ProductResultModel(
         @SerializedName("trackId") var id: Int,
         @SerializedName("collectionName") var collectionName: String,
         @SerializedName("artworkUrl100") var artworkUrl100: String,
-        @SerializedName("collectionPrice") var collectionPrice: Double
+        @SerializedName("collectionPrice") var collectionPrice: Double,
+        @SerializedName("releaseDate") var releaseDate: String,
     ) : Parcelable {
 
         override fun equals(other: Any?): Boolean {

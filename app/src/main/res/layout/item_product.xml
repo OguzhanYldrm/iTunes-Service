@@ -3,32 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginVertical="10dp"
-    android:layout_marginHorizontal="8dp">
+    android:layout_height="210dp"
+    android:paddingBottom="10dp"
+    android:paddingHorizontal="8dp">
+
 <com.google.android.material.card.MaterialCardView
     android:id="@+id/product_cardview"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
+    android:layout_height="match_parent"
     app:cardCornerRadius="10dp"
-    android:elevation="10dp">
+    android:elevation="2dp"
+    android:layout_margin="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/product_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="4dp">
+        android:layout_margin="8dp">
 
         <ImageView
             android:id="@+id/product_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/ic_launcher_background"
             android:contentDescription="@string/product_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -40,6 +40,8 @@
             android:layout_height="wrap_content"
             android:text="@string/product_name"
             android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@id/product_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -48,13 +50,13 @@
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/arvo"
             android:text="@string/price"
+            android:layout_marginTop="4dp"
             android:textSize="16sp"
-            android:fontFamily="sans-serif"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/product_name"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintBottom_toTopOf="@id/product_release_date"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/product_release_date"
@@ -64,12 +66,10 @@
             android:textSize="12sp"
             android:alpha="0.5"
             android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/product_price"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:drawableStartCompat="@drawable/ic_date_dot"
-            android:drawablePadding="8dp" />
-
-
+            android:drawablePadding="5dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

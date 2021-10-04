@@ -1,15 +1,16 @@
 package com.android.itunesservice.ui.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.android.itunesservice.R
 import com.android.itunesservice.data.model.ProductResultModel
 import com.android.itunesservice.databinding.ItemProductBinding
-import com.android.itunesservice.utils.loadImage
-import com.android.itunesservice.utils.notFoundPlaceholder
+import com.android.itunesservice.utils.UtilFunctions
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
 class ProductListAdapter :
     PagingDataAdapter<ProductResultModel.Product, ProductListAdapter.ProductListViewHolder>(PRODUCT_COMPARATOR) {
@@ -31,12 +32,16 @@ class ProductListAdapter :
 
         fun bind(product: ProductResultModel.Product) {
             binding.apply {
-                productImage.loadImage(
-                    product.artworkUrl100,
-                    notFoundPlaceholder(binding.root.context)
-                )
-                productName.text = product.collectionName
+                Glide.with(itemView)
+                    .load(product.artworkUrl100)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .error(R.drawable.product_placeholder)
+                    .into(productImage)
+
+                productName.text = UtilFunctions.textShortener(product.collectionName, 30)
                 productPrice.text = "$ ${product.collectionPrice}"
+                productReleaseDate.text = UtilFunctions.dateFormatter(product.releaseDate)
             }
         }
     }
