@@ -15,9 +15,8 @@ data class ProductResultModel(
     data class Product(
         @SerializedName("trackId") var id: Int,
         @SerializedName("collectionName") var collectionName: String,
-        @SerializedName("artworkUrl100") var artworkUrl100: String,
+        @SerializedName("artworkUrl100") var artworkUrl100: String?,
         @SerializedName("collectionPrice") var collectionPrice: Double,
-        @SerializedName("artistName") var artistName: String,
         @SerializedName("primaryGenreName") var primaryGenreName: String,
         @SerializedName("releaseDate") var releaseDate: String,
         @SerializedName("longDescription") var longDescription: String,

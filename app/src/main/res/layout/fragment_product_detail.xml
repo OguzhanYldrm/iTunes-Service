@@ -21,16 +21,17 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="25dp">
+            android:layout_marginBottom="8dp">
 
             <ImageView
                 android:id="@+id/ivProductDetailImage"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/app_name"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@mipmap/ic_launcher" />
 
@@ -38,6 +39,7 @@
                 android:id="@+id/btnProductDetailBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/app_name"
                 android:background="@drawable/ic_back_arrow"
                 android:backgroundTint="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +64,7 @@
                 android:text="@string/date_placeholder"
                 android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivProductDetailImage" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
 
             <TextView
@@ -76,16 +78,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvProductDetailName" />
 
-            <TextView
-                android:id="@+id/tvProductDetailDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginTop="10dp"
-                android:alpha="0.65"
-                android:text="@string/product_description"
-                android:textSize="13sp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvProductDetailPrice" />
+                app:layout_constraintTop_toBottomOf="@id/tvProductDetailPrice"
+                app:layout_constraintBottom_toTopOf="@id/tvProductDetailReleaseDate">
+
+                <TextView
+                    android:id="@+id/tvProductDetailDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:alpha="0.65"
+                    android:text="@string/product_description"
+                    android:textSize="13sp"
+                    />
+
+            </ScrollView>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -97,7 +110,7 @@
         android:layout_height="50dp"
         android:layout_margin="20dp"
         android:backgroundTint="@color/black"
-        app:cardCornerRadius="120dp"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
@@ -120,6 +133,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:translationZ="100dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
