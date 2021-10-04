@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.android.itunesservice.R
 import com.android.itunesservice.data.model.ProductResultModel
@@ -27,6 +30,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentProductDetailBinding.bind(view)
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
         binding.apply {
             val product = args.product as ProductResultModel.Product
@@ -73,6 +77,12 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
 
 
+
+        }
+
+        binding.btnProductDetailBack.setOnClickListener {
+            val action = ProductDetailFragmentDirections.actionProductDetailFragmentToProductListFragment()
+            findNavController().navigate(action)
         }
 
     }

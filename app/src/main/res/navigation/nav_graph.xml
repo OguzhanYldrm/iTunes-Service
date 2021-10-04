@@ -21,5 +21,8 @@
         <argument
             android:name="product"
             app:argType="com.android.itunesservice.data.model.ProductResultModel$Product" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
     </fragment>
 </navigation>

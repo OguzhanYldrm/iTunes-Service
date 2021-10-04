@@ -104,7 +104,7 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null){
                     binding.recyclerViewItems.scrollToPosition(0)
-                    // #TODO Here, query should be converted to URL-Encoding like a+b+c
+                    // TODO Here, query should be converted to URL-Encoding like a+b+c
 
                     var category = "movie"
                     when(binding.categoryTab.selectedTabPosition){

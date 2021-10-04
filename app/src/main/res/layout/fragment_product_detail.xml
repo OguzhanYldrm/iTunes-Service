@@ -35,15 +35,32 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@mipmap/ic_launcher" />
 
-            <ImageButton
-                android:id="@+id/btnProductDetailBack"
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnProductDetailBackLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:background="@drawable/ic_back_arrow"
-                android:backgroundTint="@color/black"
+                android:elevation="20dp"
+                android:layout_margin="8dp"
+                android:backgroundTint="#CCFFFFFF"
+                android:clickable="false"
+                android:translationZ="101dp"
+                app:cardCornerRadius="25dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageButton
+                    android:id="@+id/btnProductDetailBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    android:background="@drawable/ic_back_arrow"
+                    android:backgroundTint="@color/black"
+                     />
+
+            </androidx.cardview.widget.CardView>
+
+
 
             <TextView
                 android:id="@+id/tvProductDetailName"
