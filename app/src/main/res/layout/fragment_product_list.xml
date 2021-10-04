@@ -58,6 +58,7 @@
         app:tabSelectedTextColor="@color/black"
         app:tabTextColor="@color/black"
         app:tabUnboundedRipple="true"
+        app:tabTextAppearance="@style/tab_text"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -74,25 +75,31 @@
         app:layout_constraintTop_toBottomOf="@+id/categoryTab"
         tools:listitem="@layout/item_product" />
 
+
+
     <TextView
+        android:id="@+id/resultsNotFoundProductList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_results_found"
         android:textAlignment="center"
         android:textSize="20sp"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
+        android:id="@+id/resultsNotLoadedProductList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/results_not_loaded"
         android:textAlignment="center"
         android:textSize="20sp"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/btn_reload_products"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -103,8 +110,18 @@
         android:layout_height="wrap_content"
         android:text="@string/reload"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ProgressBar
+        android:id="@+id/progressBarProductList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

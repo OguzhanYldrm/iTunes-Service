@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itunesservice.R
@@ -30,12 +32,36 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
         val adapter = ProductListAdapter()
 
         binding.apply {
+            recyclerViewItems.setHasFixedSize(true)
+            recyclerViewItems.itemAnimator = null
             recyclerViewItems.layoutManager = GridLayoutManager(requireContext(),2)
             recyclerViewItems.setHasFixedSize(true)
             recyclerViewItems.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = ProductLoadStateAdapter { adapter.retry() },
                 footer = ProductLoadStateAdapter { adapter.retry() }
             )
+            btnReloadProducts.setOnClickListener {
+                adapter.retry()
+            }
+        }
+
+        adapter.addLoadStateListener { loadState ->
+            binding.apply {
+                progressBarProductList.isVisible = loadState.source.refresh is LoadState.Loading
+                recyclerViewItems.isVisible = loadState.source.refresh is LoadState.NotLoading
+                btnReloadProducts.isVisible = loadState.source.refresh is LoadState.Error
+                resultsNotLoadedProductList.isVisible = loadState.source.refresh is LoadState.Error
+
+                //If no products retrieved
+                if (loadState.source.refresh is LoadState.NotLoading &&
+                        loadState.append.endOfPaginationReached &&
+                        adapter.itemCount < 1){
+                    recyclerViewItems.isVisible = false
+                    resultsNotFoundProductList.isVisible = true
+                } else {
+                    resultsNotFoundProductList.isVisible = false
+                }
+            }
         }
 
         //Get Products
