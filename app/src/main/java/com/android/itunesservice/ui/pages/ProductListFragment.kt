@@ -3,6 +3,7 @@ package com.android.itunesservice.ui.pages
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -53,15 +54,48 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
 
         binding.categoryTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                when(tab.text) {
-                    "Movies" -> viewModel.searchProducts(ProductRequestModel("apple", "movie"))
-                    "Musics" -> Toast.makeText(context, "Musics", Toast.LENGTH_SHORT).show()
-                    "Books" -> Toast.makeText(context, "Books", Toast.LENGTH_SHORT).show()
-                    "Podcasts" -> Toast.makeText(context, "Podcasts", Toast.LENGTH_SHORT).show()
+                var category = "movie"
+                when(tab.position) {
+                    0 -> category = "movie"
+                    1 -> category = "music"
+                    2 -> category = "ebook"
+                    3 -> category = "podcast"
                 }
+                var query = binding.SeachView.query.toString()
+                if (query.isEmpty()){
+                    query = "Michael+Jackson"
+                }
+                viewModel.searchProducts(ProductRequestModel(query, category))
+                binding.SeachView.clearFocus()
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+        binding.SeachView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null){
+                    binding.recyclerViewItems.scrollToPosition(0)
+                    // #TODO Here, query should be converted to URL-Encoding like a+b+c
+
+                    var category = "movie"
+                    when(binding.categoryTab.selectedTabPosition){
+                        0 -> category = "movie"
+                        1 -> category = "music"
+                        2 -> category = "ebook"
+                        3 -> category = "podcast"
+                    }
+                    viewModel.searchProducts(ProductRequestModel(query, category))
+                    binding.SeachView.clearFocus()
+                }
+
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return true
+            }
+
         })
     }
 
