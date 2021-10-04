@@ -8,7 +8,10 @@ import androidx.paging.cachedIn
 import com.android.itunesservice.data.model.ProductRequestModel
 import com.android.itunesservice.data.repository.ProductRepository
 
-class ProductListViewModel(private val repository: ProductRepository) : ViewModel(){
+
+class ProductListViewModel() : ViewModel(){
+
+    private val repository: ProductRepository = ProductRepository()
 
     private val currentRequest = MutableLiveData(ProductRequestModel(DEFUALT_QUERY,DEFAULT_ENTITY))
 
