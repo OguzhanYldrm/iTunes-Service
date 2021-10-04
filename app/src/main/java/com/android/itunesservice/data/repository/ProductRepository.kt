@@ -10,8 +10,8 @@ class ProductRepository() {
     fun getSearchResults(query: String, entity: String) =
         Pager(
             config = PagingConfig(
-            pageSize = 20,
-            maxSize = 200,
+            pageSize = 10,
+            maxSize = 50,
             enablePlaceholders = false
             ),
             pagingSourceFactory = { ProductPagingSource(query, entity) }

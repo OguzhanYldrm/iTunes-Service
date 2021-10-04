@@ -1,6 +1,5 @@
 package com.android.itunesservice.api
 
-import com.android.itunesservice.data.model.ProductRequestModel
 import com.android.itunesservice.data.model.ProductResultModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,16 +27,16 @@ object SearchServiceApi {
     val API = Retrofit
         .Builder()
         .baseUrl(BASE_URL)
-        .client(okHttpClient)
+         //.client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ISearchService::class.java)
 
     suspend fun getSearchedProducts(
-        searchText: String = "",
-        entity: String = "movie",
-        pageSize: Int = 20,
-        pageNumber: Int = 0
+        searchText: String,
+        entity: String,
+        pageSize: Int,
+        pageNumber: Int
     ): ProductResultModel {
         return API.getSearchedProducts(searchText, country, entity, pageSize, pageNumber)
     }

@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ITunesService"
         android:windowSoftInputMode="adjustPan|stateHidden"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity
             android:name=".ui.MainActivity"

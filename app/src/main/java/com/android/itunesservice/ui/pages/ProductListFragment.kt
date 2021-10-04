@@ -11,6 +11,7 @@ import com.android.itunesservice.R
 import com.android.itunesservice.data.model.ProductRequestModel
 import com.android.itunesservice.databinding.FragmentProductListBinding
 import com.android.itunesservice.ui.adapters.ProductListAdapter
+import com.android.itunesservice.ui.adapters.ProductLoadStateAdapter
 import com.android.itunesservice.ui.viewmodel.ProductListViewModel
 import com.google.android.material.tabs.TabLayout
 
@@ -28,9 +29,12 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list) {
         val adapter = ProductListAdapter()
 
         binding.apply {
-            recyclerViewItems.setHasFixedSize(true)
-            recyclerViewItems.adapter = adapter
             recyclerViewItems.layoutManager = GridLayoutManager(requireContext(),2)
+            recyclerViewItems.setHasFixedSize(true)
+            recyclerViewItems.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = ProductLoadStateAdapter { adapter.retry() },
+                footer = ProductLoadStateAdapter { adapter.retry() }
+            )
         }
 
         //Get Products

@@ -47,9 +47,14 @@ class ProductListAdapter :
             override fun areItemsTheSame(oldItem: ProductResultModel.Product, newItem: ProductResultModel.Product) =
                 oldItem.id == newItem.id
 
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: ProductResultModel.Product, newItem: ProductResultModel.Product) =
-                oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: ProductResultModel.Product,
+                newItem: ProductResultModel.Product
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+
         }
     }
 }
