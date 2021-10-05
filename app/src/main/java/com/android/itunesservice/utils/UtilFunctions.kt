@@ -7,6 +7,12 @@ import java.util.*
 
 object UtilFunctions {
 
+    /**
+     * A Method for shortening long text
+     * @param txt givenText
+     * @param maximumLength length limit that if we exceed it. 3 dots will be added to end of txt
+     * @return shortened text if txt is not null
+     */
     fun textShortener(txt: String?, maximumLength : Int) : String{
         txt?.let {
             return if (it.length > maximumLength) it.substring(0,maximumLength) + "..." else txt
@@ -14,6 +20,9 @@ object UtilFunctions {
         return ""
     }
 
+    /**
+     * Dateformatter which converts given date string to human readable format.
+     */
     fun dateFormatter(zonedDate : String) : String{
         val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val formatter = SimpleDateFormat("dd MMM yyyy")

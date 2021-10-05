@@ -32,6 +32,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         _binding = FragmentProductDetailBinding.bind(view)
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
+        //Getting Parcelable Product object from args of navigation component.
         binding.apply {
             val product = args.product as ProductResultModel.Product
 
@@ -44,6 +45,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             Glide.with(this@ProductDetailFragment)
                 .load(product.artworkUrl100)
                 .error(R.drawable.product_placeholder)
+                //Listening image load and handling load and error conditions
                 .listener(object : RequestListener<Drawable>{
                     override fun onLoadFailed(
                         e: GlideException?,
@@ -80,6 +82,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
         }
 
+        //Back button action for returning to list page
         binding.btnProductDetailBack.setOnClickListener {
             val action = ProductDetailFragmentDirections.actionProductDetailFragmentToProductListFragment()
             findNavController().navigate(action)

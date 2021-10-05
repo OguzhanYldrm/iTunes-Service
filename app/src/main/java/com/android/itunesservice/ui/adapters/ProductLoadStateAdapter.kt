@@ -8,6 +8,11 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.itunesservice.databinding.ProductLoadStateBinding
 
+/**
+ *This adapter class is a state class that checks the loading state of recyclerview items.
+ * It shows errors and a reload button on sceanarios like no internet connection, request timeout, http
+ * errors. Takes a relod function as parameter to trigger the reload operation when it's needed.
+ */
 class ProductLoadStateAdapter(private val reload: () -> Unit) : LoadStateAdapter<ProductLoadStateAdapter.LoadStateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {

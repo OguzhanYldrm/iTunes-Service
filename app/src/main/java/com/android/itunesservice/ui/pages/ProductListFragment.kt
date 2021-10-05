@@ -32,6 +32,7 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
         // Inflate the layout for this fragment
         _binding = FragmentProductListBinding.bind(view)
 
+        //Setting recyclerview with reload options and gridlayout structure
         val adapter = ProductListAdapter(this)
 
         binding.apply {
@@ -48,6 +49,8 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
             }
         }
 
+        //Setting LoadStateListener to handle page specific loading condition.(different from ProductLoadStateAdapter
+        //which was for recyclerview specific loading states (like couldn't load a page))
         adapter.addLoadStateListener { loadState ->
             binding.apply {
                 progressBarProductList.isVisible = loadState.source.refresh is LoadState.Loading
@@ -67,11 +70,12 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
             }
         }
 
-        //Get Products
+        //Observe Products
         viewModel.products.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
 
+        //Adding Category tabs
         binding.categoryTab.apply {
             addTab(binding.categoryTab.newTab().setText("Movies"))
             addTab(binding.categoryTab.newTab().setText("Musics"))
@@ -80,21 +84,27 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
             tabGravity = TabLayout.GRAVITY_FILL
         }
 
-
+        //Setting category selection events.
         binding.categoryTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
+                //getting the category string by checking its position
                 val category = getEntity(tab.position)
+                //getting query as URL-Encoded
                 var query = getEncodedQuery(binding.SeachView.query.toString())
+                //Setting default value for query if it's empty.
                 if (query.isEmpty()){
                     query = "Hobbit"
                 }
+                //Starting the search call for onTabSelected Event
                 viewModel.searchProducts(ProductRequestModel(query, category))
+                //Closing keyboard
                 binding.SeachView.clearFocus()
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
+        //Setting query change event
         binding.SeachView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null){
@@ -126,6 +136,10 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
     }
 
 
+    /**
+     * @param position the position of selected tab
+     * @return query string for category.
+     */
     private fun getEntity(position : Int) : String{
         when(position){
             0 -> return "movie"
@@ -136,6 +150,10 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
         return "movie"
     }
 
+    /**
+     * @param query the search text that is entered by user
+     * @return URL-Encoded version of given text.
+     */
     private fun getEncodedQuery(query : String) : String{
         return URLEncoder.encode(query, "utf-8")
     }

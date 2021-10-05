@@ -12,6 +12,11 @@ import com.android.itunesservice.utils.UtilFunctions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
+/**
+ * This class is a pagingadapter that handles displaying results on screen as paging aware. It takes
+ * a listener as parameter to pass click events to its calling class. It also uses a COMPARATOR to
+ * check if loaded product is already visible on recyclerview or not.
+ */
 class ProductListAdapter(private val listener: OnProductClickListener) :
     PagingDataAdapter<ProductResultModel.Product, ProductListAdapter.ProductListViewHolder>(
         PRODUCT_COMPARATOR
@@ -36,6 +41,10 @@ class ProductListAdapter(private val listener: OnProductClickListener) :
 
             binding.root.setOnClickListener {
                 val position = bindingAdapterPosition
+                //Checking if item has proper position. While scrolling down recyclerview replaces
+                //items shown with new ones while doing these the old items positions are set to -1
+                // and new ones come. So this scroll operation can crash our click events so we add
+                // a position check.
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     item?.let {
@@ -65,6 +74,7 @@ class ProductListAdapter(private val listener: OnProductClickListener) :
         fun onProductClick(product: ProductResultModel.Product)
     }
 
+    //Comparator that compares new items with old items on recyclerviewscroll.
     companion object {
         private val PRODUCT_COMPARATOR =
             object : DiffUtil.ItemCallback<ProductResultModel.Product>() {
