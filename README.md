@@ -2,8 +2,8 @@
 This project is a case study of Hepsiburada Mobile Team which mainly focuses on pagination &amp; filtering on data fetched from iTunes API. 
 
 ### Contents:
-  - [Tasks](#tasks)
-      - [Project Setup](#project-setup)
+  - [Path](#path)
+      - [Project Setup]
       - [Data Class & Views] 
       - [Navigation]
       - [API Operations]
@@ -60,6 +60,9 @@ Contributions are always welcome!
 
 ## Special Thanks
 - [Hepsiburada](https://www.hepsiburada.com/) for guiding me to create this project that allowed me to gain valuable information.
+
+## Final Notes
+- I was planning to use Hilt Dependency Injection and also save the previous search state while navigating through fragment, however, for saving time and completing the process, I couldn't added those features. There is also a bug which is keyboard opens on start of the fragment. I added the closing line to manifest but maybe it's only on my emulator device. 
 
 ## License 
 
