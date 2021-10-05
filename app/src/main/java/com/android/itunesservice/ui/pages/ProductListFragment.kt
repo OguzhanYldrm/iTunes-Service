@@ -19,6 +19,7 @@ import com.android.itunesservice.ui.adapters.ProductListAdapter
 import com.android.itunesservice.ui.adapters.ProductLoadStateAdapter
 import com.android.itunesservice.ui.viewmodel.ProductListViewModel
 import com.google.android.material.tabs.TabLayout
+import java.net.URLEncoder
 
 class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductListAdapter.OnProductClickListener {
 
@@ -82,14 +83,8 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
 
         binding.categoryTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                var category = "movie"
-                when(tab.position) {
-                    0 -> category = "movie"
-                    1 -> category = "song"
-                    2 -> category = "ebook"
-                    3 -> category = "podcast"
-                }
-                var query = binding.SeachView.query.toString()
+                val category = getEntity(tab.position)
+                var query = getEncodedQuery(binding.SeachView.query.toString())
                 if (query.isEmpty()){
                     query = "Hobbit"
                 }
@@ -104,25 +99,18 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null){
                     binding.recyclerViewItems.scrollToPosition(0)
-                    // TODO Here, query should be converted to URL-Encoding like a+b+c
 
-                    var category = "movie"
-                    when(binding.categoryTab.selectedTabPosition){
-                        0 -> category = "movie"
-                        1 -> category = "song"
-                        2 -> category = "ebook"
-                        3 -> category = "podcast"
-                    }
-                    viewModel.searchProducts(ProductRequestModel(query, category))
+                    val encodedQuery = URLEncoder.encode(query, "utf-8")
+                    val category = getEntity(binding.categoryTab.selectedTabPosition)
+
+                    viewModel.searchProducts(ProductRequestModel(encodedQuery, category))
                     binding.SeachView.clearFocus()
                 }
 
                 return true
             }
 
-            override fun onQueryTextChange(p0: String?): Boolean {
-                return true
-            }
+            override fun onQueryTextChange(p0: String?) = true
 
         })
     }
@@ -137,4 +125,18 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
         findNavController().navigate(action)
     }
 
+
+    private fun getEntity(position : Int) : String{
+        when(position){
+            0 -> return "movie"
+            1 -> return "song"
+            2 -> return "ebook"
+            3 -> return "podcast"
+        }
+        return "movie"
+    }
+
+    private fun getEncodedQuery(query : String) : String{
+        return URLEncoder.encode(query, "utf-8")
+    }
 }
