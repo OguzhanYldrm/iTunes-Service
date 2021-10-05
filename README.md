@@ -17,27 +17,26 @@ This project is a case study of Hepsiburada Mobile Team which mainly focuses on 
   - Retrofit
   - Coil
   - Paging
+  - Flow
 
 #### ✔️ Data Class & Views
 #### ✔️ Navigation
 #### ✔️ API Operations
-#### ♦️ DI via Hilt
+#### ✔️ DI via Hilt
 #### ✔️ Paging - Source & Data
 #### ✔️ Paging Adapter
 #### ✔️ Searching
 #### ✔️ Loading State
 #### ✔️ Detail Screen
 #### ✔️ Detail Screen Implementations
-#### ♦️ Handle Death Process
+#### ✔️ Handle Death Process
  
-
-
-
 
 ## Helpful Sources
 - ["Paging 3 — Easier Way to Pagination"](https://proandroiddev.com/paging-3-easier-way-to-pagination-part-1-584cad1f4f61) - *Metin Ozcura*
 - ["Paging 3 Android Tutorial"](https://blog.mindorks.com/paging-3-tutorial) - *Himanshu Singh*
 - ["LiveData Overview"](https://developer.android.com/topic/libraries/architecture/livedata) - *Developers Android*
+- ["Livedata to Flow Transformation"](https://developer.android.com/codelabs/advanced-kotlin-coroutines#11) - *Developers Android*
 
 ## Contribute
 
