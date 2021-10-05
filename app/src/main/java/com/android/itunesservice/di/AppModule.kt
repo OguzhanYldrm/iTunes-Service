@@ -1,15 +1,21 @@
-package com.android.itunesservice.api
+package com.android.itunesservice.di
 
-import com.android.itunesservice.data.model.ProductResultModel
+import com.android.itunesservice.api.ISearchService
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+import javax.inject.Singleton
 
 
-object SearchServiceApi {
-
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
     //Initiating base_url and getting country code from system.
     private val BASE_URL = "https://itunes.apple.com/"
     private val country = Locale.getDefault().country
@@ -27,22 +33,18 @@ object SearchServiceApi {
         .addNetworkInterceptor(interceptor)
         .build()
 
-    val API = Retrofit
-        .Builder()
+
+
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         //.client(okHttpClient) //logs will be visible on logcat when this comment is opened.
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(ISearchService::class.java)
 
-    //the transition method for the ISearchService's getSearchedProducts method.
-    suspend fun getSearchedProducts(
-        searchText: String,
-        entity: String,
-        pageSize: Int,
-        pageNumber: Int
-    ): ProductResultModel {
-        return API.getSearchedProducts(searchText, country, entity, pageSize, pageNumber)
-    }
-
+    @Provides
+    @Singleton
+    fun provideSearchApi(retrofit: Retrofit) : ISearchService = retrofit.create(ISearchService::class.java)
 }

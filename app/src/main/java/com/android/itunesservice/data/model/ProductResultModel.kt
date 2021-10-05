@@ -18,12 +18,12 @@ data class ProductResultModel(
     @Parcelize
     data class Product(
         @SerializedName("trackId") var id: Int,//Id
-        @SerializedName("collectionName") var collectionName: String,//Name
+        @SerializedName("collectionName") var collectionName: String?,//Name
         @SerializedName("artworkUrl100") var artworkUrl100: String?, //Image Url
         @SerializedName("collectionPrice") var collectionPrice: Double, //Price
-        @SerializedName("primaryGenreName") var primaryGenreName: String, //Type (Comedy etc.)
-        @SerializedName("releaseDate") var releaseDate: String, //Release
-        @SerializedName("longDescription") var longDescription: String, //Description
+        @SerializedName("primaryGenreName") var primaryGenreName: String?, //Type (Comedy etc.)
+        @SerializedName("releaseDate") var releaseDate: String?, //Release
+        @SerializedName("longDescription") var longDescription: String?, //Description
 
     ) : Parcelable {
 

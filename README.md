@@ -29,7 +29,7 @@ This project is a case study of Hepsiburada Mobile Team which mainly focuses on 
   - Jetpack Navigation
   - Hilt DI
   - Retrofit
-  - Glide
+  - Coil
   - Paging
 
 #### Data Class & Views

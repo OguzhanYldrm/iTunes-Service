@@ -1,40 +1,69 @@
 package com.android.itunesservice.ui.pages
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.WindowManager
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.itunesservice.R
 import com.android.itunesservice.data.model.ProductRequestModel
 import com.android.itunesservice.data.model.ProductResultModel
 import com.android.itunesservice.databinding.FragmentProductListBinding
+import com.android.itunesservice.enums.Category
+import com.android.itunesservice.ui.MainActivity
 import com.android.itunesservice.ui.adapters.ProductListAdapter
 import com.android.itunesservice.ui.adapters.ProductLoadStateAdapter
 import com.android.itunesservice.ui.viewmodel.ProductListViewModel
+import com.android.itunesservice.utils.DEFAULT_CATEGORY
+import com.android.itunesservice.utils.DEFAULT_QUERY
+import com.android.itunesservice.utils.UtilFunctions.urlEncoder
 import com.google.android.material.tabs.TabLayout
-import java.net.URLEncoder
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductListAdapter.OnProductClickListener {
 
     private val viewModel by viewModels<ProductListViewModel> ()
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
+    private var searchJob: Job? = null
 
+    private val adapter = ProductListAdapter(this)
+
+    @ExperimentalPagingApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         // Inflate the layout for this fragment
         _binding = FragmentProductListBinding.bind(view)
 
         //Setting recyclerview with reload options and gridlayout structure
-        val adapter = ProductListAdapter(this)
+        initAdapter()
 
+        //Initial call for searchRequest
+        (activity as MainActivity).apply {
+            doSearch(this.QUERY_STATE, this.CATEGORY_STATE) }
+
+        //Initiating search actions
+        initSearchActions()
+
+        //Initiating tab selections
+        initTabOperations()
+
+    }
+
+    private fun initAdapter() {
         binding.apply {
             recyclerViewItems.setHasFixedSize(true)
             recyclerViewItems.itemAnimator = null
@@ -58,10 +87,11 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
                 btnReloadProducts.isVisible = loadState.source.refresh is LoadState.Error
                 resultsNotLoadedProductList.isVisible = loadState.source.refresh is LoadState.Error
 
+                Log.d("Load State",loadState.source.refresh.toString())
                 //If no products retrieved
                 if (loadState.source.refresh is LoadState.NotLoading &&
-                        loadState.append.endOfPaginationReached &&
-                        adapter.itemCount < 1){
+                    loadState.append.endOfPaginationReached &&
+                    adapter.itemCount < 1){
                     recyclerViewItems.isVisible = false
                     resultsNotFoundProductList.isVisible = true
                 } else {
@@ -69,51 +99,21 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
                 }
             }
         }
+    }
 
-        //Observe Products
-        viewModel.products.observe(viewLifecycleOwner) {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
-        }
-
-        //Adding Category tabs
-        binding.categoryTab.apply {
-            addTab(binding.categoryTab.newTab().setText("Movies"))
-            addTab(binding.categoryTab.newTab().setText("Musics"))
-            addTab(binding.categoryTab.newTab().setText("Books"))
-            addTab(binding.categoryTab.newTab().setText("Podcasts"))
-            tabGravity = TabLayout.GRAVITY_FILL
-        }
-
-        //Setting category selection events.
-        binding.categoryTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                //getting the category string by checking its position
-                val category = getEntity(tab.position)
-                //getting query as URL-Encoded
-                var query = getEncodedQuery(binding.SeachView.query.toString())
-                //Setting default value for query if it's empty.
-                if (query.isEmpty()){
-                    query = "Hobbit"
-                }
-                //Starting the search call for onTabSelected Event
-                viewModel.searchProducts(ProductRequestModel(query, category))
-                //Closing keyboard
-                binding.SeachView.clearFocus()
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-
+    @ExperimentalPagingApi
+    private fun initSearchActions() {
         //Setting query change event
         binding.SeachView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null){
                     binding.recyclerViewItems.scrollToPosition(0)
 
-                    val encodedQuery = URLEncoder.encode(query, "utf-8")
+                    val encodedQuery = query.urlEncoder()
                     val category = getEntity(binding.categoryTab.selectedTabPosition)
 
-                    viewModel.searchProducts(ProductRequestModel(encodedQuery, category))
+                    doSearch(encodedQuery, category)
+
                     binding.SeachView.clearFocus()
                 }
 
@@ -125,15 +125,60 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    @ExperimentalPagingApi
+    private fun initTabOperations() {
+        //Adding Category tabs
+        binding.categoryTab.apply {
+            addTab(binding.categoryTab.newTab().setText(context.getString(R.string.movies)))
+            addTab(binding.categoryTab.newTab().setText(context.getString(R.string.musics)))
+            addTab(binding.categoryTab.newTab().setText(context.getString(R.string.books)))
+            addTab(binding.categoryTab.newTab().setText(context.getString(R.string.podcasts)))
+            tabGravity = TabLayout.GRAVITY_FILL
+        }
+
+        //Setting category selection events.
+        binding.categoryTab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                //getting the category string by checking its position
+                val category = getEntity(tab.position)
+                //getting query as URL-Encoded
+                var query = binding.SeachView.query.toString().urlEncoder()
+                //Setting default value for query if it's empty.
+                if (query.isEmpty()){
+                    query = DEFAULT_QUERY
+                }
+
+                doSearch(query, category)
+
+                //Closing keyboard
+                binding.SeachView.clearFocus()
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
     }
 
-    override fun onProductClick(product: ProductResultModel.Product) {
-        val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailFragment(product)
-        findNavController().navigate(action)
+
+
+    /**
+     * This method gets the necessary params to search and starts a coroutine job
+     * to handle the operation and submit returned PageData into adapter
+     */
+    @ExperimentalPagingApi
+    private fun doSearch(query: String, category: String) {
+        //on each search we save the state to the parent(MainActivity)
+        setQueryState(query, category)
+
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.searchProducts(ProductRequestModel(query, category))
+                .collectLatest {
+                    adapter.submitData(it)
+                }
+        }
     }
+
+
 
 
     /**
@@ -142,19 +187,27 @@ class ProductListFragment : Fragment(R.layout.fragment_product_list), ProductLis
      */
     private fun getEntity(position : Int) : String{
         when(position){
-            0 -> return "movie"
-            1 -> return "song"
-            2 -> return "ebook"
-            3 -> return "podcast"
+            0 -> return Category.MOVIE.name.lowercase()
+            1 -> return Category.SONG.name.lowercase()
+            2 -> return Category.EBOOK.name.lowercase()
+            3 -> return Category.PODCAST.name.lowercase()
         }
-        return "movie"
+        return Category.MOVIE.name.lowercase()
     }
 
-    /**
-     * @param query the search text that is entered by user
-     * @return URL-Encoded version of given text.
-     */
-    private fun getEncodedQuery(query : String) : String{
-        return URLEncoder.encode(query, "utf-8")
+    override fun onProductClick(product: ProductResultModel.Product) {
+        val action = ProductListFragmentDirections.actionProductListFragmentToProductDetailFragment(product)
+        findNavController().navigate(action)
+    }
+
+    private fun setQueryState(query: String, category: String) {
+        (activity as MainActivity?)?.QUERY_STATE = query
+        (activity as MainActivity?)?.CATEGORY_STATE = category
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("onDestroy", "called")
+        _binding = null
     }
 }

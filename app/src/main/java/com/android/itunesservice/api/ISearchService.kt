@@ -1,6 +1,5 @@
 package com.android.itunesservice.api
 
-import com.android.itunesservice.data.model.ProductRequestModel
 import com.android.itunesservice.data.model.ProductResultModel
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,7 +1,7 @@
 package com.android.itunesservice.utils
 
+import java.net.URLEncoder
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.*
 
 
@@ -13,22 +13,26 @@ object UtilFunctions {
      * @param maximumLength length limit that if we exceed it. 3 dots will be added to end of txt
      * @return shortened text if txt is not null
      */
-    fun textShortener(txt: String?, maximumLength : Int) : String{
-        txt?.let {
-            return if (it.length > maximumLength) it.substring(0,maximumLength) + "..." else txt
+    fun String.textShortener(maximumLength : Int) : String {
+        this.let {
+            return if (it.length > maximumLength) it.substring(0,maximumLength) + "..." else this
         }
-        return ""
     }
 
     /**
      * Dateformatter which converts given date string to human readable format.
      */
-    fun dateFormatter(zonedDate : String) : String{
+    fun String.dateFormatter() : String {
         val parser =  SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val formatter = SimpleDateFormat("dd MMM yyyy")
-        val formattedDate = formatter.format(parser.parse(zonedDate.substring(0, zonedDate.length - 2))!!)
+        val formattedDate = formatter.format(parser.parse(this.substring(0, this.length - 2))!!)
         return formattedDate.format(Date())
     }
+
+    /**
+     * @return URL-Encoded version of given text.
+     */
+    fun String.urlEncoder() : String = URLEncoder.encode(this, "utf-8")
 
 
 }

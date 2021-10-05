@@ -2,8 +2,9 @@ package com.android.itunesservice.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.android.itunesservice.api.SearchServiceApi
+import com.android.itunesservice.api.ISearchService
 import com.android.itunesservice.data.model.ProductResultModel
+import com.android.itunesservice.utils.PRODUCT_PAGE_NUMBER
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -14,10 +15,8 @@ import java.io.IOException
  * positions.
  */
 
-//Initial page index comes 0 from Api so ve set it to 0.
-private const val PRODUCT_PAGE_NUMBER = 0
-
 class ProductPagingSource(
+    private val searchServiceApi: ISearchService,
     private val query: String,
     private val entity: String
 ) : PagingSource<Int, ProductResultModel.Product>() {
@@ -26,9 +25,8 @@ class ProductPagingSource(
         val position = params.key ?: PRODUCT_PAGE_NUMBER
 
         return try {
-
             //Retrofit call for query
-            val response = SearchServiceApi.getSearchedProducts(query, entity, params.loadSize, position)
+            val response = searchServiceApi.getSearchedProducts(query,  "US", entity, params.loadSize, position)
             //Getting products from the ProductResultModels Product section
             val products = response.results
 

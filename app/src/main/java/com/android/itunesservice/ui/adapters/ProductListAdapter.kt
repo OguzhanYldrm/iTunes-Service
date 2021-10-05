@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.android.itunesservice.R
 import com.android.itunesservice.data.model.ProductResultModel
 import com.android.itunesservice.databinding.ItemProductBinding
-import com.android.itunesservice.utils.UtilFunctions
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.android.itunesservice.utils.UtilFunctions.dateFormatter
+import com.android.itunesservice.utils.UtilFunctions.textShortener
 
 /**
  * This class is a pagingadapter that handles displaying results on screen as paging aware. It takes
@@ -56,16 +56,15 @@ class ProductListAdapter(private val listener: OnProductClickListener) :
 
         fun bind(product: ProductResultModel.Product) {
             binding.apply {
-                Glide.with(itemView)
-                    .load(product.artworkUrl100)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.product_placeholder)
-                    .into(productImage)
-
-                productName.text = UtilFunctions.textShortener(product.collectionName, 30)
-                productPrice.text = "$ ${product.collectionPrice}"
-                productReleaseDate.text = UtilFunctions.dateFormatter(product.releaseDate)
+                productImage.load(product.artworkUrl100) {
+                    crossfade(true)
+                    error(R.drawable.product_not_found)
+                    placeholder(R.drawable.product_placeholder)
+                }
+                val price = "$ ${product.collectionPrice}"
+                productName.text = product.collectionName?.textShortener(30) ?: "Not Found"
+                productPrice.text = price
+                productReleaseDate.text = product.releaseDate?.dateFormatter()
             }
         }
     }
