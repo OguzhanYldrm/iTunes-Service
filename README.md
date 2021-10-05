@@ -10,7 +10,7 @@ This project is a case study of Hepsiburada Mobile Team which mainly focuses on 
 
 ## Path
 
-#### Project Setup
+#### ✔️ Project Setup
   - Viewbinding
   - Jetpack Navigation
   - Hilt DI
@@ -18,18 +18,17 @@ This project is a case study of Hepsiburada Mobile Team which mainly focuses on 
   - Glide
   - Paging
 
-#### Data Class & Views
-#### Navigation
-#### API Operations
-#### DI via Hilt
-#### Paging - Source & Data
-#### Paging Adapter
-#### Header & Footer
-#### Searching
-#### Loading State
-#### Go Detail Screen
-#### Detail Screen Implementations
-#### Handle Death Process
+#### ✔️ Data Class & Views
+#### ✔️ Navigation
+#### ✔️ API Operations
+#### ♦️ DI via Hilt
+#### ✔️ Paging - Source & Data
+#### ✔️ Paging Adapter
+#### ✔️ Searching
+#### ✔️ Loading State
+#### ✔️ Detail Screen
+#### ✔️ Detail Screen Implementations
+#### ♦️ Handle Death Process
  
 
 
