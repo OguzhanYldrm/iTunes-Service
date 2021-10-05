@@ -2,21 +2,7 @@
 This project is a case study of Hepsiburada Mobile Team which mainly focuses on pagination &amp; filtering on data fetched from iTunes API. 
 
 ### Contents:
-  - [Path](#path)
-      - [Project Setup]
-      - [Data Class & Views] 
-      - [Navigation]
-      - [API Operations]
-      - [DI via Hilt]
-      - [Paging - Source & Data]
-      - [Paging Adapter]
-      - [Header & Footer]
-      - [Searching]
-      - [Loading State]
-      - [Go Detail Screen]
-      - [Detail Screen Implementations]
-      - [Handle Death Process]
-      
+  - [Path](#path)      
   - [Helpful Sources](#helpful-sources)
   - [Contribute](#contribute)
   - [Special Thanks](#special-thanks)
